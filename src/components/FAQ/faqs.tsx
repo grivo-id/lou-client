@@ -23,7 +23,7 @@ export default function FAQs({ maxWidth = "max-w-5xl" }: Props) {
             <p className="font-semibold">How to Order?</p>
             <ul className=" ml-6 list-disc [&>li]:mt-2">
               <li>Option 1: Come directly to our store.</li>
-              <li>Option 2: Chat to our Whatsapp (+6281110019906).</li>
+              <li>Option 2: Chat to our Whatsapp (+628111079906).</li>
               <li>Option 3: Direct message to our Instagram (@lou.jkt).</li>
               <li>Option 4: Via Grab/Gojek.</li>
               <li>Option 5: Via Tokopedia.</li>

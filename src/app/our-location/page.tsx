@@ -55,7 +55,7 @@ const locationData = {
     },
     "query-input": "required name=search_term_string"
   },
-  "telephone": "+6281110019906",
+  "telephone": "+628111079906",
   "address": {
     "@type": "PostalAddress",
     "streetAddress": "Jalan Boulevard Raya Gading Serpong, Ruko Paramount",
