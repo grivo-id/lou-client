@@ -20,7 +20,13 @@ type Props = {
   logoSwitch?: boolean;
 };
 
-export default function NavHeader({ marginTopNotScrolled = "mt-4", bgColorNotScrolled = "bg-transparent", pyNotScrolled = "py-0", textColor = "text-white", logoSwitch = false }: Props) {
+export default function NavHeader({
+  marginTopNotScrolled = "mt-4",
+  bgColorNotScrolled = "bg-transparent",
+  pyNotScrolled = "py-0",
+  textColor = "text-white",
+  logoSwitch = false,
+}: Props) {
   const [showNav, setShowNav] = useState(false);
   const productTypesLoadable = useRecoilValueLoadable(fetchProductTypes);
   const [isClient, setIsClient] = useState(false);
@@ -66,8 +72,7 @@ export default function NavHeader({ marginTopNotScrolled = "mt-4", bgColorNotScr
               animate="visible"
               exit="hidden"
               variants={navVariants}
-              transition={{ duration: 0.3 }}
-            >
+              transition={{ duration: 0.3 }}>
               <div className="hidden md:flex items-center text-center ">{showNav || logoSwitch ? <TopScrolledLogo /> : <TopLogo />}</div>
               <div className="block md:hidden">
                 <MobileNavigationMenu typeList={productTypes} showNav={showNav} />
@@ -83,7 +88,7 @@ export default function NavHeader({ marginTopNotScrolled = "mt-4", bgColorNotScr
                 </div>
               </div>
               <div className="relative w-fit h-fit">
-                <LuoCart />
+                <LuoCart showNav={showNav} />
               </div>
             </motion.div>
           </AnimatePresence>
@@ -100,14 +105,13 @@ export default function NavHeader({ marginTopNotScrolled = "mt-4", bgColorNotScr
               <div className="hidden md:block">
                 <TopNavigationMenu typeList={productTypes} />
               </div>
-              <div>
-                <div className="flex items-center text-center md:hidden ">
-                  <TopScrolledLogo />
-                </div>
+
+              <div className="flex items-center text-center md:hidden drop-shadow-md">
+                <TopLogo />
               </div>
             </div>
             <div className="relative w-fit h-fit">
-              <LuoCart />
+              <LuoCart showNav={showNav} />
             </div>
           </div>
         );
@@ -115,7 +119,7 @@ export default function NavHeader({ marginTopNotScrolled = "mt-4", bgColorNotScr
       break;
     case "hasError":
       console.error("Error loading product types:", productTypesLoadable.contents);
-      content = <div>Error loading product types</div>;
+      content = <div></div>;
       break;
   }
 
