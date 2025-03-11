@@ -72,7 +72,7 @@ export default function MobileNavigationMenu({ showNav, typeList }: Props) {
   return (
     <>
       <div>
-        <button onClick={toggleSidenav} className={`text-luoDarkBiege hover:text-slate-700 transition ease-in-out duration-200`}>
+        <button onClick={toggleSidenav} className={`${showNav ? "text-luoDarkBiege" : "text-white"} hover:text-slate-700 transition ease-in-out duration-200`}>
           <Menu size={30} />
         </button>
       </div>
