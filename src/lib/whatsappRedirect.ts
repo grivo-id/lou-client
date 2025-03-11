@@ -10,8 +10,13 @@ type OrderData = {
 };
 
 // Single "Buy Now" Template
-export const redirectToWhatsApp = (name: string, price: number, variant: string, data: OrderData) => {
-  const phoneNumber = "+6281110019906";
+export const redirectToWhatsApp = (
+  name: string,
+  price: number,
+  variant: string,
+  data: OrderData
+) => {
+  const phoneNumber = "+628111079906";
   const selectedAddOns =
     Object.keys(data.addOns)
       .filter((key) => data.addOns[key].selected)
@@ -30,7 +35,9 @@ export const redirectToWhatsApp = (name: string, price: number, variant: string,
   - *Delivery Date*: ${formatDate(data.deliveryDate)}
   - *Delivery Time*: ${data.deliveryTime}
   - *Add-Ons*: ${selectedAddOns}
-  - *Complimentary Message*: ${data.complimentaryMsg || "No complimentary message"}
+  - *Complimentary Message*: ${
+    data.complimentaryMsg || "No complimentary message"
+  }
 
   *Total Price*: ${formatPrice(data.totalPrice)}
 
@@ -39,13 +46,18 @@ export const redirectToWhatsApp = (name: string, price: number, variant: string,
   Thank you!
   `;
 
-  const whatsappURL = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+  const whatsappURL = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(
+    message
+  )}`;
   window.open(whatsappURL, "_blank");
 };
 
 // Bulk Products Redirect WA msgs
-export const redirectToWhatsAppCart = (cartItems: CartItem[], cumulativeTotalPrice: number) => {
-  const phoneNumber = "+6281110019906";
+export const redirectToWhatsAppCart = (
+  cartItems: CartItem[],
+  cumulativeTotalPrice: number
+) => {
+  const phoneNumber = "+628111079906";
   let message = `Hi Lou Patisserie,\n\nI would like to place an order with the following details:\n\n`;
 
   cartItems.forEach((item, index) => {
@@ -74,15 +86,23 @@ export const redirectToWhatsAppCart = (cartItems: CartItem[], cumulativeTotalPri
     message += `- *Total Product Price*: ${formatPrice(item.totalPrice)}\n\n`;
   });
 
-  message += `*Cumulative Total Price*: ${formatPrice(cumulativeTotalPrice)}\n\n`;
+  message += `*Cumulative Total Price*: ${formatPrice(
+    cumulativeTotalPrice
+  )}\n\n`;
   message += `Please let me know if you need any further information.\n\nThank you!`;
 
-  const whatsappURL = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+  const whatsappURL = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(
+    message
+  )}`;
   window.open(whatsappURL, "_blank");
 };
 
-export const redirectToWhatsAppAddOns = (name: string, price: number, data: OrderData) => {
-  const phoneNumber = "+6281110019906";
+export const redirectToWhatsAppAddOns = (
+  name: string,
+  price: number,
+  data: OrderData
+) => {
+  const phoneNumber = "+628111079906";
   let message = `Hi Lou Patisserie,\n\nI would like to place an order with the following details:\n\n`;
 
   message += `*Add-Ons Name:* ${name}\n`;
@@ -100,6 +120,8 @@ export const redirectToWhatsAppAddOns = (name: string, price: number, data: Orde
     message += `*Complimentary Message:* ${data.complimentaryMsg}\n`;
   }
 
-  const whatsappURL = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+  const whatsappURL = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(
+    message
+  )}`;
   window.open(whatsappURL, "_blank");
 };

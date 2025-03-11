@@ -50,7 +50,7 @@ const aboutUsData = {
   },
   "contactPoint": {
     "@type": "ContactPoint",
-    "telephone": "+6281110019906",
+    "telephone": "+628111079906",
     "contactType": "Customer Service",
   },
 }
