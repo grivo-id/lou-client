@@ -34,7 +34,7 @@ export default function FooterNavItems() {
                 <Link href="https://www.instagram.com/lou_jkt" target="_blank" rel="nofollow">
                   <Instagram size={20} className="text-slate-700" />
                 </Link>
-                <Link href="https://wa.me/6281110019906" target="_blank" rel="nofollow">
+                <Link href="https://wa.me/628111079906" target="_blank" rel="nofollow">
                   <WhatsappSvg />
                 </Link>
                 <Link href="https://www.tiktok.com/@loupatisserie?_t=8nhdXzcGLZv&_r=1" target="_blank" rel="nofollow">
