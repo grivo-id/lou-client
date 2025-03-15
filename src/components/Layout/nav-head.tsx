@@ -6,7 +6,7 @@ import MobileNavigationMenu from "./mobile-nav-menu";
 import { motion, AnimatePresence } from "framer-motion";
 import classes from "./scss/nav-head.module.scss";
 import LuoCart from "../UI/Cart/shopping-cart";
-import { getAllProductTypes } from "@/api/product-type-api";
+import { getAllProductTypes } from "@/frameworks/client-api/product-type-api";
 import { useRecoilValue, useRecoilValueLoadable } from "recoil";
 import { fetchProductTypes } from "@/recoils/selectors/product-types";
 import { ProductTypes } from "@/types/data-types";
@@ -20,13 +20,7 @@ type Props = {
   logoSwitch?: boolean;
 };
 
-export default function NavHeader({
-  marginTopNotScrolled = "mt-4",
-  bgColorNotScrolled = "bg-transparent",
-  pyNotScrolled = "py-0",
-  textColor = "text-white",
-  logoSwitch = false,
-}: Props) {
+export default function NavHeader({ marginTopNotScrolled = "mt-4", bgColorNotScrolled = "bg-transparent", pyNotScrolled = "py-0", textColor = "text-white", logoSwitch = false }: Props) {
   const [showNav, setShowNav] = useState(false);
   const productTypesLoadable = useRecoilValueLoadable(fetchProductTypes);
   const [isClient, setIsClient] = useState(false);
@@ -72,7 +66,8 @@ export default function NavHeader({
               animate="visible"
               exit="hidden"
               variants={navVariants}
-              transition={{ duration: 0.3 }}>
+              transition={{ duration: 0.3 }}
+            >
               <div className="hidden md:flex items-center text-center ">{showNav || logoSwitch ? <TopScrolledLogo /> : <TopLogo />}</div>
               <div className="block md:hidden">
                 <MobileNavigationMenu typeList={productTypes} showNav={showNav} />

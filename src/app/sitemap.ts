@@ -1,6 +1,6 @@
-import { getAllAddOns } from "@/api/add-ons-api";
-import { getAllCakes } from "@/api/cakes-api";
-import { getAllProductTypes } from "@/api/product-type-api";
+import { getAllAddOns } from "@/frameworks/client-api/add-ons-api";
+import { getAllCakes } from "@/frameworks/client-api/cakes-api";
+import { getAllProductTypes } from "@/frameworks/client-api/product-type-api";
 import { normalizeText } from "@/lib/formatters";
 import { Cake } from "@/types/data-types";
 import { url } from "inspector";

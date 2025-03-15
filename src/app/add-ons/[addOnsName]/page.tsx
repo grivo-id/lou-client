@@ -1,5 +1,5 @@
 "use client";
-import { getAddOnByName } from "@/api/add-ons-api";
+import { getAddOnByName } from "@/frameworks/client-api/add-ons-api";
 import AddOnOrder from "@/components/Add-Ons-Detail/add-ons-order";
 import FaqProductDetail from "@/components/Product-Detail/faq-product";
 import ProductDetailImgs from "@/components/Product-Detail/product-img-layout";

@@ -1,6 +1,6 @@
 "use client";
-import { getAllAddOns } from "@/api/add-ons-api";
-import { getCakeByName } from "@/api/cakes-api";
+import { getAllAddOns } from "@/frameworks/client-api/add-ons-api";
+import { getCakeByName } from "@/frameworks/client-api/cakes-api";
 import FaqProductDetail from "@/components/Product-Detail/faq-product";
 import ProductDetailImgs from "@/components/Product-Detail/product-img-layout";
 import ProductOrder from "@/components/Product-Detail/product-order";
@@ -36,7 +36,6 @@ export default function ProductDetailPage() {
       try {
         const addOnsResponse = await getAllAddOns();
         setAddOns(addOnsResponse.data);
-      
       } catch (addOnsError) {
         console.error("Failed to fetch add-ons", addOnsError);
         setAddOnsFetchError(true);
@@ -69,15 +68,7 @@ export default function ProductDetailPage() {
         </div>
         <div className="flex flex-col w-full max-w-lg border lg:border-none lg:shadow-none lg:py-0 lg:mx-0 border-luoBiege shadow-md rounded-lg py-4 mx-4">
           <Suspense fallback={<div></div>}>
-            <ProductOrder
-              cakeId={cakeData?.ID}
-              cakeName={cakeData?.name}
-              mainImgSrc={cakeData?.main_image}
-              variants={cakeVariant}
-              addOns={addOns}
-              addOnsNull={addOnsFetchError}
-              loading={loading}
-            />
+            <ProductOrder cakeId={cakeData?.ID} cakeName={cakeData?.name} mainImgSrc={cakeData?.main_image} variants={cakeVariant} addOns={addOns} addOnsNull={addOnsFetchError} loading={loading} />
           </Suspense>
         </div>
       </div>
