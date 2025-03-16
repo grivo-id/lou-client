@@ -21,7 +21,7 @@ export default function ProductOrder({ cakeId = "", cakeName, mainImgSrc, varian
   const [selectedPrice, setSelectedPrice] = useState<number>(0);
   const [selectedVariantName, setSelectedVariantName] = useState<string>("");
   // console.log(variants)
-  console.log(addOns);
+  // console.log(addOns);
 
   useEffect(() => {
     if (variants.length > 0) {
