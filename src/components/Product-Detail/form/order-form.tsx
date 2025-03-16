@@ -30,11 +30,10 @@ type Props = {
   imgSrc?: string;
   selectedVariantName: string;
   addOns: AddOns[];
-  addOnsNull: boolean;
   loading?: boolean;
 };
 
-export default function OrderForm({ id, name = "", price, selectedVariantName, imgSrc = "", addOns, addOnsNull, loading }: Props) {
+export default function OrderForm({ id, name = "", price, selectedVariantName, imgSrc = "", addOns = [], loading }: Props) {
   const [isDrawerOpen, setDrawerOpen] = useState(false);
   const [isBuyNow, setIsBuyNow] = useState(false);
   const [totalPrice, setTotalPrice] = useState(price);
@@ -54,16 +53,21 @@ export default function OrderForm({ id, name = "", price, selectedVariantName, i
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      addOns: addOns.reduce((acc, addOn) => {
-        acc[addOn.name] = {
-          selected: false,
-          price: parseFloat(addOn.price),
-          name: addOn.name,
-          main_image: addOn.main_image,
-          ID: addOn.ID,
-        };
-        return acc;
-      }, {} as Record<string, { selected: boolean; price: number; name: string; main_image: string; ID: string }>),
+      addOns: Array.isArray(addOns)
+        ? addOns.reduce((acc, addOn) => {
+            if (addOn) {
+              // Additional safety check
+              acc[addOn.name] = {
+                selected: false,
+                price: parseFloat(addOn.price),
+                name: addOn.name,
+                main_image: addOn.main_image,
+                ID: addOn.ID,
+              };
+            }
+            return acc;
+          }, {} as Record<string, { selected: boolean; price: number; name: string; main_image: string; ID: string }>)
+        : {},
     },
   });
 
@@ -139,23 +143,14 @@ export default function OrderForm({ id, name = "", price, selectedVariantName, i
                 <Popover>
                   <PopoverTrigger asChild>
                     <FormControl>
-                      <Button
-                        name="date-btn"
-                        variant={"outline"}
-                        className={cn("w-72 md:w-96 pl-3 text-left font-normal hover:bg-luoBiege rounded-none", !field.value && "text-muted-foreground")}>
+                      <Button name="date-btn" variant={"outline"} className={cn("w-72 md:w-96 pl-3 text-left font-normal hover:bg-luoBiege rounded-none", !field.value && "text-muted-foreground")}>
                         {field.value ? format(field.value, "PPP") : <span>Pick a date</span>}
                         <CalendarIcon className="ml-auto h-4 w-4 opacity-50 " />
                       </Button>
                     </FormControl>
                   </PopoverTrigger>
                   <PopoverContent className="w-auto p-0 rounded-none" align="start">
-                    <Calendar
-                      mode="single"
-                      selected={field.value}
-                      onSelect={field.onChange}
-                      disabled={(date) => startOfDay(date) < startOfDay(new Date())}
-                      initialFocus
-                    />
+                    <Calendar mode="single" selected={field.value} onSelect={field.onChange} disabled={(date) => startOfDay(date) < startOfDay(new Date())} initialFocus />
                   </PopoverContent>
                 </Popover>
                 <FormMessage />
@@ -201,7 +196,7 @@ export default function OrderForm({ id, name = "", price, selectedVariantName, i
           </div>
           {loading ? (
             <Skeleton className="w-full max-w-96 h-7 my-2" />
-          ) : addOnsNull ? (
+          ) : addOns.length === 0 ? (
             <Input className="rounded-none focus-visible:ring-luoDarkBiege " type="text" readOnly value="Add-ons not available" />
           ) : (
             addOns.map((addOn) => (
@@ -212,11 +207,7 @@ export default function OrderForm({ id, name = "", price, selectedVariantName, i
                   render={({ field }) => (
                     <FormItem className="flex w-72 md:w-96 flex-row items-start space-x-2 space-y-0 rounded-none border px-4 py-3">
                       <FormControl>
-                        <Checkbox
-                          checked={field.value}
-                          onCheckedChange={(isChecked: any) => handleAddOnChange(addOn.name, isChecked)}
-                          className="rounded-none"
-                        />
+                        <Checkbox checked={field.value} onCheckedChange={(isChecked: any) => handleAddOnChange(addOn.name, isChecked)} className="rounded-none" />
                       </FormControl>
                       <div className="space-y-1 leading-none">
                         <FormLabel>
@@ -236,29 +227,17 @@ export default function OrderForm({ id, name = "", price, selectedVariantName, i
               <FormItem className="flex flex-col w-72 md:w-96">
                 <FormLabel>Complimentary Message (Optional)</FormLabel>
                 <FormControl>
-                  <Textarea
-                    placeholder="Write your message here, We do not write on the cake"
-                    className="resize-none focus-visible:ring-luoDarkBiege rounded-none"
-                    {...field}
-                  />
+                  <Textarea placeholder="Write your message here, We do not write on the cake" className="resize-none focus-visible:ring-luoDarkBiege rounded-none" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
           <div className="flex flex-col gap-2">
-            <Button
-              name="order-submit"
-              type="submit"
-              className="bg-luoDarkBiege hover:bg-[#a58b73] rounded-none transition ease-in-out duration-150"
-              onClick={() => setIsBuyNow(true)}>
+            <Button name="order-submit" type="submit" className="bg-luoDarkBiege hover:bg-[#a58b73] rounded-none transition ease-in-out duration-150" onClick={() => setIsBuyNow(true)}>
               Buy Now - {formatPrice(totalPrice)}
             </Button>
-            <Button
-              name="order-submit"
-              type="submit"
-              className="bg-luoBiege text-luoDarkBiege hover:bg-[#e8dbca] rounded-none transition ease-in-out duration-150"
-              onClick={() => setIsBuyNow(false)}>
+            <Button name="order-submit" type="submit" className="bg-luoBiege text-luoDarkBiege hover:bg-[#e8dbca] rounded-none transition ease-in-out duration-150" onClick={() => setIsBuyNow(false)}>
               Add to Cart
             </Button>
           </div>

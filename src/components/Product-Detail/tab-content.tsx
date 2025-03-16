@@ -1,16 +1,19 @@
+"use client";
 import { CircleChevronRight } from "lucide-react";
 import { Card } from "../UI/card";
 import classes from "./scss/about-content.module.scss";
-import DOMPurify from "dompurify";
-import parse from "html-react-parser";
+import { useEffect, useState } from "react";
 
 type DescProps = {
   description: string;
 };
 
 export function ProductDesc({ description }: DescProps) {
-  const santizedContent = DOMPurify.sanitize(description);
-  const parsedContent = parse(santizedContent);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   return (
     <Card className="border-luoBiege">
@@ -19,7 +22,7 @@ export function ProductDesc({ description }: DescProps) {
           <CircleChevronRight size={18} strokeWidth={1.5} />
           <h3 className="text-lg font-semibold tracking-wide">Description</h3>
         </div>
-        <div className={`px-6 ${classes.renderedJoditHtml}`}>{parsedContent}</div>
+        <div className={`px-6 ${classes.renderedJoditHtml}`}>{mounted ? <p dangerouslySetInnerHTML={{ __html: description }} /> : <p>Loading...</p>}</div>
       </div>
     </Card>
   );
@@ -31,11 +34,11 @@ type AllerIngProps = {
 };
 
 export function ProductAllergenAndIngredients({ allergens, ingredients }: AllerIngProps) {
-  const santizedAllergen = DOMPurify.sanitize(allergens);
-  const parsedAllergen = parse(santizedAllergen);
+  const [mounted, setMounted] = useState(false);
 
-  const sanitizedIngredients = DOMPurify.sanitize(ingredients);
-  const parsedIngredients = parse(sanitizedIngredients);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   return (
     <Card className="border-luoBiege ">
@@ -44,12 +47,12 @@ export function ProductAllergenAndIngredients({ allergens, ingredients }: AllerI
           <CircleChevronRight size={18} strokeWidth={1.5} />
           <h3 className="text-lg font-semibold tracking-wide">Allergen</h3>
         </div>
-        <div className={`px-6 ${classes.renderedJoditHtml}`}>{parsedAllergen}</div>
+        <div className={`px-6 ${classes.renderedJoditHtml}`}>{mounted ? <p dangerouslySetInnerHTML={{ __html: allergens }} /> : <p>Loading...</p>}</div>
         <div className="flex flex-row gap-1 items-center">
           <CircleChevronRight size={18} strokeWidth={1.5} />
           <h3 className="text-lg font-semibold tracking-wide">Ingredients</h3>
         </div>
-        <div className={`px-6 ${classes.renderedJoditHtml}`}>{parsedIngredients}</div>
+        <div className={`px-6 ${classes.renderedJoditHtml}`}>{mounted ? <p dangerouslySetInnerHTML={{ __html: ingredients }} /> : <p>Loading...</p>}</div>
       </div>
     </Card>
   );
@@ -60,8 +63,11 @@ type ServingProps = {
 };
 
 export function StorageServing({ storageServing }: ServingProps) {
-  const santizedContent = DOMPurify.sanitize(storageServing);
-  const parsedContent = parse(santizedContent);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   return (
     <Card className="border-luoBiege">
@@ -70,7 +76,7 @@ export function StorageServing({ storageServing }: ServingProps) {
           <CircleChevronRight size={18} strokeWidth={1.5} />
           <h3 className="text-lg font-semibold tracking-wide">Storage & Serving</h3>
         </div>
-        <div className={`px-6 ${classes.renderedJoditHtml}`}>{parsedContent}</div>
+        <div className={`px-6 ${classes.renderedJoditHtml}`}>{mounted ? <p dangerouslySetInnerHTML={{ __html: storageServing }} /> : <p>Loading...</p>}</div>
       </div>
     </Card>
   );

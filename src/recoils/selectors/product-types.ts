@@ -1,6 +1,6 @@
 import { selector } from "recoil";
 import { productTypesState } from "../atoms/product-types";
-import { getAllProductTypes } from "@/api/product-type-api";
+import { getAllProductTypes } from "@/frameworks/client-api/product-type-api";
 type ProductTypes = {
   ID: string;
   name: string;

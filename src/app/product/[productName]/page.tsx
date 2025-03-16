@@ -1,83 +1,50 @@
-"use client";
-import { getAllAddOns } from "@/api/add-ons-api";
-import { getCakeByName } from "@/api/cakes-api";
+import { getServerAllAddOns, getServerCakeByName } from "@/frameworks/server-api/cakes-server-api";
+import { notFound } from "next/navigation";
+import { Suspense } from "react";
 import FaqProductDetail from "@/components/Product-Detail/faq-product";
 import ProductDetailImgs from "@/components/Product-Detail/product-img-layout";
 import ProductOrder from "@/components/Product-Detail/product-order";
 import ProductTabs from "@/components/Product-Detail/product-tabs";
 import SubHeroBanner from "@/components/UI/SubHero-Banner/subhero-banner";
 import { deSlugify } from "@/lib/formatters";
-import { AddOns, Cake, CakeDetails, Variants } from "@/types/data-types";
-import { notFound, usePathname } from "next/navigation";
-import { Suspense, useCallback, useEffect, useState } from "react";
+import { AddOns } from "@/types/data-types";
 
-export default function ProductDetailPage() {
-  const pathname = usePathname();
-  const [loading, setLoading] = useState(false);
-  const [triggerNotFound, setTriggerNotFound] = useState(false);
-  const [cakeData, setCakeData] = useState<Cake>();
-  const [cakeVariant, setCakeVariant] = useState<Variants[]>([]);
-  const [cakeDetails, setCakeDetails] = useState<CakeDetails>();
-  const [addOns, setAddOns] = useState<AddOns[]>([]);
-  const [addOnsFetchError, setAddOnsFetchError] = useState(false);
-  const pathSegments = pathname.split("/");
-  const cakeNameParam = decodeURIComponent(pathSegments[pathSegments.length - 1]);
-  const normalizeCakeName = deSlugify(cakeNameParam);
+type Props = {
+  params: {
+    productName: string;
+  };
+};
 
-  const fetchCakeDetailByNameAndAddOns = useCallback(async () => {
-    setLoading(true);
+export default async function ProductDetailPage({ params }: Props) {
+  const { productName } = params;
+  const normalizeCakeName = deSlugify(productName);
 
-    try {
-      const response = await getCakeByName(normalizeCakeName);
-      setCakeData(response.data.cake);
-      setCakeVariant(response.data.variants);
-      setCakeDetails(response.data.aboutCake);
+  const result = await getServerCakeByName(normalizeCakeName);
+  const addOnResult = await getServerAllAddOns();
+  // console.log("API result:", addOnResult);
 
-      try {
-        const addOnsResponse = await getAllAddOns();
-        setAddOns(addOnsResponse.data);
-      
-      } catch (addOnsError) {
-        console.error("Failed to fetch add-ons", addOnsError);
-        setAddOnsFetchError(true);
-      }
-    } catch (error) {
-      console.error("Failed to fetch product detail by name", error);
-      setTriggerNotFound(true);
-    } finally {
-      setLoading(false);
-    }
-  }, [normalizeCakeName]);
-
-  useEffect(() => {
-    fetchCakeDetailByNameAndAddOns();
-  }, [fetchCakeDetailByNameAndAddOns]);
-
-  if (triggerNotFound) {
-    return notFound();
+  if (!result.success) {
+    console.error("Failed to load product detail:", result.error);
+    notFound();
   }
+
+  const cakeData = result.data;
+  const addOnData: AddOns[] = addOnResult.success ? addOnResult.data : [];
+  const { cake, aboutCake, variants } = cakeData;
 
   return (
     <>
       <SubHeroBanner title="Product Details" image="/assets/img/Product-Detail.png" />
       <div className="flex flex-wrap my-10 md:my-16 mx-auto justify-center gap-4 lg:gap-10 h-fit">
         <div className="flex flex-col gap-6 w-full max-w-lg">
-          <ProductDetailImgs mainImg={cakeData?.main_image} subImg1={cakeData?.sub_image1} subImg2={cakeData?.sub_image2} />
+          <ProductDetailImgs mainImg={cake.main_image} subImg1={cake.sub_image1} subImg2={cake.sub_image2} />
           <div className="">
-            <ProductTabs aboutCakeData={cakeDetails} />
+            <ProductTabs aboutCakeData={aboutCake} />
           </div>
         </div>
         <div className="flex flex-col w-full max-w-lg border lg:border-none lg:shadow-none lg:py-0 lg:mx-0 border-luoBiege shadow-md rounded-lg py-4 mx-4">
           <Suspense fallback={<div></div>}>
-            <ProductOrder
-              cakeId={cakeData?.ID}
-              cakeName={cakeData?.name}
-              mainImgSrc={cakeData?.main_image}
-              variants={cakeVariant}
-              addOns={addOns}
-              addOnsNull={addOnsFetchError}
-              loading={loading}
-            />
+            <ProductOrder cakeId={cake.ID} cakeName={cake.name} mainImgSrc={cake.main_image} variants={variants} addOns={addOnData} loading={false} />
           </Suspense>
         </div>
       </div>

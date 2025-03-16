@@ -6,7 +6,7 @@ import Image from "next/image";
 import ProductSelection from "./product-selection";
 import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
-import { getCakesByFlexQueries } from "@/api/cakes-api";
+import { getCakesByFlexQueries } from "@/frameworks/client-api/cakes-api";
 import { CakeQueryParams } from "@/types/api-types";
 import { validateImageUrl } from "@/lib/imgUtils";
 import { Skeleton } from "@/components/UI/skeleton";
@@ -96,7 +96,7 @@ export default function Products() {
                         height={550}
                         className={`aspect-square object-cover rounded-none shadow-sm cursor-pointer transition ease-in-out duration-200 hover:opacity-60 hover:border-2 hover:border-luoDarkBiege opacity-100`}
                       /> */}
-                        <ImageWithFallback
+                      <ImageWithFallback
                         src={validateImageUrl(cake.main_image)}
                         fallbackSrc="/assets/img/image_not_found.jpeg"
                         alt={cake.name}
@@ -117,4 +117,3 @@ export default function Products() {
     </section>
   );
 }
-

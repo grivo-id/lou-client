@@ -14,11 +14,10 @@ type Props = {
   mainImgSrc?: string;
   variants: Variants[];
   addOns: AddOns[];
-  addOnsNull: boolean;
   loading?: boolean;
 };
 
-export default function ProductOrder({ cakeId = "", cakeName, mainImgSrc, variants, addOns, loading, addOnsNull }: Props) {
+export default function ProductOrder({ cakeId = "", cakeName, mainImgSrc, variants, addOns, loading }: Props) {
   const [selectedPrice, setSelectedPrice] = useState<number>(0);
   const [selectedVariantName, setSelectedVariantName] = useState<string>("");
   // console.log(variants)
@@ -81,7 +80,6 @@ export default function ProductOrder({ cakeId = "", cakeName, mainImgSrc, varian
             imgSrc={mainImgSrc}
             selectedVariantName={selectedVariantName}
             addOns={addOns}
-            addOnsNull={addOnsNull}
             loading={loading}
           />
         </div>

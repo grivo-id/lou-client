@@ -1,6 +1,6 @@
 "use client";
 import classes from "./collection.module.scss";
-import { getAllProductTypes } from "@/api/product-type-api";
+import { getAllProductTypes } from "@/frameworks/client-api/product-type-api";
 import AllProducts from "@/components/AllProducts/all-products";
 import FAQs from "@/components/FAQ/faqs";
 import SubHeroBanner from "@/components/UI/SubHero-Banner/subhero-banner";
