@@ -2,6 +2,24 @@
 import { AddOns, Cake, CakeDetails, Variants } from "@/types/data-types";
 import { api } from "../api-config";
 
+export const getServerAllCakes = async () => {
+  try {
+    const response = await api.get("/cakes?sort=desc");
+    return {
+      success: true,
+      data: response.data.data,
+      error: null,
+    };
+  } catch (error: any) {
+    console.error(error.response?.data?.message);
+    return {
+      success: false,
+      data: [],
+      error: "Failed to fetch cakes",
+    };
+  }
+};
+
 type SuccessResponse = {
   success: true;
   data: {

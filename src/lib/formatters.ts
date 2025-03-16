@@ -30,6 +30,14 @@ export function normalizeText(input: string) {
     .replace(/[^a-z0-9-]/g, "");
 }
 
+export function normalizeTextV2(input: string) {
+  return input
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/\s+/g, "-")
+    .replace(/[^a-z0-9-]/g, "");
+}
+
 export function deSlugify(slug: string): string {
   return slug.replace(/-/g, " ");
 }

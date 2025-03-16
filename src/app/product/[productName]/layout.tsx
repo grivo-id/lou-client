@@ -1,15 +1,14 @@
 import { Metadata } from "next";
-import { getCakeByName } from "@/frameworks/client-api/cakes-api";
+import { getCachedCakeByName } from "@/frameworks/server-api/cached-api";
 import { deSlugify, normalizeText } from "@/lib/formatters";
 import JSONLD from "@/components/JSONLD";
 import { Cake, CakeDetails, Variants } from "@/types/data-types";
-import { getServerCakeByName } from "@/frameworks/server-api/cakes-server-api";
 
 export async function generateMetadata({ params }: { params: { productName: string } }): Promise<Metadata> {
   const cakeNameParam = decodeURIComponent(params.productName);
   const normalizeCakeName = deSlugify(cakeNameParam);
 
-  const response = await getServerCakeByName(normalizeCakeName);
+  const response = await getCachedCakeByName(normalizeCakeName);
   // console.log(response);
 
   if (!response.success) {
@@ -69,7 +68,7 @@ export default async function ProductLayout({ children, params }: { children: Re
   const cakeNameParam = decodeURIComponent(params.productName);
   const normalizeCakeName = deSlugify(cakeNameParam);
 
-  const response = await getServerCakeByName(normalizeCakeName);
+  const response = await getCachedCakeByName(normalizeCakeName);
 
   if (!response.success) {
     return <div>{children}</div>;

@@ -1,13 +1,14 @@
-import { getServerAllAddOns, getServerCakeByName } from "@/frameworks/server-api/cakes-server-api";
+import { getCachedAllAddOns, getCachedCakeByName } from "@/frameworks/server-api/cached-api";
+import { getServerAllCakes } from "@/frameworks/server-api/cakes-server-api";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
+import { deSlugify, normalizeText, normalizeTextV2 } from "@/lib/formatters";
+import { AddOns, Cake } from "@/types/data-types";
 import FaqProductDetail from "@/components/Product-Detail/faq-product";
 import ProductDetailImgs from "@/components/Product-Detail/product-img-layout";
 import ProductOrder from "@/components/Product-Detail/product-order";
 import ProductTabs from "@/components/Product-Detail/product-tabs";
 import SubHeroBanner from "@/components/UI/SubHero-Banner/subhero-banner";
-import { deSlugify } from "@/lib/formatters";
-import { AddOns } from "@/types/data-types";
 
 type Props = {
   params: {
@@ -15,12 +16,30 @@ type Props = {
   };
 };
 
+export const revalidate = 3600;
+export const dynamicParams = true;
+
+export const generateStaticParams = async () => {
+  const response = await getServerAllCakes();
+  const allCakes: Cake[] = response.data;
+  // console.log(allCakes);
+  // console.log(
+  //   allCakes.map((cake) => ({
+  //     productName: cake.name.replace(/\s+/g, "-"),
+  //   }))
+  // );
+  return allCakes.map((cake) => ({
+    productName: cake.name.replace(/\s+/g, "-"),
+  }));
+};
+
 export default async function ProductDetailPage({ params }: Props) {
   const { productName } = params;
-  const normalizeCakeName = deSlugify(productName);
 
-  const result = await getServerCakeByName(normalizeCakeName);
-  const addOnResult = await getServerAllAddOns();
+  const normalizeCakeName = deSlugify(productName);
+  // console.log("currentparam", productName, "normal", normalizeCakeName);
+  const [result, addOnResult] = await Promise.all([getCachedCakeByName(normalizeCakeName), getCachedAllAddOns()]);
+
   // console.log("API result:", addOnResult);
 
   if (!result.success) {
