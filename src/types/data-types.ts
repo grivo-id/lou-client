@@ -8,10 +8,18 @@ export type Variants = {
 
 export type Cake = {
   ID: string;
+  user_id?: string;
+  product_type_id?: string;
   name: string;
+  is_best_seller?: boolean;
+  is_new_arrival?: boolean;
+  is_fruit_based?: boolean;
+  is_nut_free?: boolean;
+  is_chocolate_based?: boolean;
   main_image: string;
   sub_image1: string;
   sub_image2: string;
+  created_date?: string | Date;
   variants: Variants[];
 };
 
@@ -40,6 +48,7 @@ export type CakeDetails = {
   allergen: string;
   ingredients: string;
   storage_serving: string;
+  created_date?: string | Date;
 };
 
 export type ProductTypes = {
