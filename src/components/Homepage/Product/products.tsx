@@ -1,7 +1,7 @@
 "use client";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/UI/carousel";
 import { items } from "../../../product";
-import { formatPrice } from "@/lib/formatters";
+import { formatPrice, slugify } from "@/lib/formatters";
 import Image from "next/image";
 import ProductSelection from "./product-selection";
 import { useCallback, useEffect, useState } from "react";
@@ -88,14 +88,7 @@ export default function Products() {
                 ))
               : currentCakes.map((cake) => (
                   <CarouselItem key={cake.ID} className="md:basis-1/2 lg:basis-1/4 flex flex-col items-center text-center justify-center p-4">
-                    <Link href={`/product/${cake.name.replace(/\s+/g, "-")}`} className="">
-                      {/* <Image
-                        src={validateImageUrl(cake.main_image)}
-                        alt={cake.name}
-                        width={550}
-                        height={550}
-                        className={`aspect-square object-cover rounded-none shadow-sm cursor-pointer transition ease-in-out duration-200 hover:opacity-60 hover:border-2 hover:border-luoDarkBiege opacity-100`}
-                      /> */}
+                    <Link href={`/product/${slugify(cake.name)}`} className="">
                       <ImageWithFallback
                         src={validateImageUrl(cake.main_image)}
                         fallbackSrc="/assets/img/image_not_found.jpeg"

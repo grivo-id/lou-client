@@ -2,7 +2,7 @@ import { getCachedAllAddOns, getCachedCakeByName } from "@/frameworks/server-api
 import { getServerAllCakes } from "@/frameworks/server-api/cakes-server-api";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
-import { deSlugify, normalizeText, normalizeTextV2 } from "@/lib/formatters";
+import { deSlugify, normalizeText, normalizeTextV2, slugify } from "@/lib/formatters";
 import { AddOns, Cake } from "@/types/data-types";
 import FaqProductDetail from "@/components/Product-Detail/faq-product";
 import ProductDetailImgs from "@/components/Product-Detail/product-img-layout";
@@ -22,14 +22,8 @@ export const dynamicParams = true;
 export const generateStaticParams = async () => {
   const response = await getServerAllCakes();
   const allCakes: Cake[] = response.data;
-  // console.log(allCakes);
-  // console.log(
-  //   allCakes.map((cake) => ({
-  //     productName: cake.name.replace(/\s+/g, "-"),
-  //   }))
-  // );
   return allCakes.map((cake) => ({
-    productName: cake.name.replace(/\s+/g, "-"),
+    productName: slugify(cake.name),
   }));
 };
 
