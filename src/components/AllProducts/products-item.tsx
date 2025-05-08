@@ -1,5 +1,5 @@
 import ImageWithFallback from "@/hooks/fallback-img";
-import { formatPrice } from "@/lib/formatters";
+import { formatPrice, slugify } from "@/lib/formatters";
 import { validateImageUrl } from "@/lib/imgUtils";
 import { motion } from "framer-motion";
 import Link from "next/link";
@@ -22,7 +22,7 @@ export default function ProductsItem({ name, main_image, variants }: Props) {
   return (
     <motion.div className="text-center" animate={{ opacity: 1 }} initial={{ opacity: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.35 }} layout>
       <div className="">
-        <Link href={`/product/${name.replace(/\s+/g, "-")}`}>
+        <Link href={`/product/${slugify(name)}`}>
           <ImageWithFallback
             src={validateImageUrl(main_image)}
             fallbackSrc="/assets/img/image_not_found.jpeg"

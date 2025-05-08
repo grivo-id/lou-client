@@ -38,9 +38,9 @@ export function normalizeTextV2(input: string) {
     .replace(/[^a-z0-9-]/g, "");
 }
 
-export function deSlugify(slug: string): string {
-  return slug.replace(/-/g, " ");
-}
+// export function deSlugify(slug: string): string {
+//   return slug.replace(/-/g, " ");
+// }
 
 // export function deSlugify(slug: string): string {
 //   return slug
@@ -48,3 +48,17 @@ export function deSlugify(slug: string): string {
 //     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
 //     .join(" ");
 // }
+
+export function slugify(text: string): string {
+  const preservedHyphens = text.replace(/-/g, "_");
+
+  return preservedHyphens.replace(/\s+/g, "-");
+}
+
+export function deSlugify(slug: string): string {
+  let result = slug;
+  result = result.replace(/-/g, " ");
+  result = result.replace(/_/g, "-");
+
+  return result;
+}
