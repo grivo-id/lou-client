@@ -1,7 +1,7 @@
 import { getAllAddOns } from "@/frameworks/client-api/add-ons-api";
 import { getAllCakes } from "@/frameworks/client-api/cakes-api";
 import { getAllProductTypes } from "@/frameworks/client-api/product-type-api";
-import { normalizeText } from "@/lib/formatters";
+import { normalizeText, slugify } from "@/lib/formatters";
 import { Cake } from "@/types/data-types";
 import { url } from "inspector";
 import { MetadataRoute } from "next";
@@ -16,7 +16,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const cakeData = cakeResponse.data;
 
     cakeData.forEach((cake: { name: string }) => {
-      const normalizedCakeName = cake.name.replace(/\s+/g, "-");
+      const normalizedCakeName = slugify(cake.name);
       cakeEntries.push({
         url: `https://www.loupatisserie.com/product/${normalizedCakeName}`,
         lastModified: new Date(),

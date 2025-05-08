@@ -1,8 +1,6 @@
 "use client";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/UI/carousel";
-import { items } from "../../../product";
 import { formatPrice, slugify } from "@/lib/formatters";
-import Image from "next/image";
 import ProductSelection from "./product-selection";
 import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";

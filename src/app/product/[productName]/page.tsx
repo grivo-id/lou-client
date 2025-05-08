@@ -2,7 +2,7 @@ import { getCachedAllAddOns, getCachedCakeByName } from "@/frameworks/server-api
 import { getServerAllCakes } from "@/frameworks/server-api/cakes-server-api";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
-import { deSlugify, normalizeText, normalizeTextV2, slugify } from "@/lib/formatters";
+import { deSlugify, slugify } from "@/lib/formatters";
 import { AddOns, Cake } from "@/types/data-types";
 import FaqProductDetail from "@/components/Product-Detail/faq-product";
 import ProductDetailImgs from "@/components/Product-Detail/product-img-layout";

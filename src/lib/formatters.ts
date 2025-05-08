@@ -50,13 +50,15 @@ export function normalizeTextV2(input: string) {
 // }
 
 export function slugify(text: string): string {
-  const preservedHyphens = text.replace(/-/g, "--");
+  const preservedHyphens = text.replace(/-/g, "_");
 
-  return preservedHyphens
-    .replace(/\s+/g, "-")
+  return preservedHyphens.replace(/\s+/g, "-");
 }
 
 export function deSlugify(slug: string): string {
-  const spacesRestored = slug.replace(/-(?!-)/g, " ");
-  return spacesRestored.replace(/--/g, "-");
+  let result = slug;
+  result = result.replace(/-/g, " ");
+  result = result.replace(/_/g, "-");
+
+  return result;
 }
