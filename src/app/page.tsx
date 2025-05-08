@@ -8,6 +8,7 @@ import Testimonials from "@/components/Homepage/Testimony/testimonials";
 import { Suspense } from "react";
 import { Metadata } from "next";
 import JSONLD from "@/components/JSONLD";
+import Script from "next/script";
 
 export const metadata: Metadata = {
   title: "Lou Patisserie & Gelato | Celebration of Sweet Moments",
@@ -61,6 +62,18 @@ const HomepageJSONLD = {
 export default function Home() {
   return (
     <>
+      <Script
+        async
+        src="https://www.googletagmanager.com/gtag/js?id=G-PS8B01S84R"
+      />
+      <Script id="google-analytics">
+        {`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-PS8B01S84R');
+        `}
+      </Script>
       <JSONLD data={HomepageJSONLD} />
       <HeroBanner />
       <SecondBanner />

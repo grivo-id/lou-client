@@ -1,10 +1,10 @@
+import { AnimatePresence } from "framer-motion";
 import { Frown } from "lucide-react";
 import Title from "../UI/Title/title";
 import { Skeleton } from "../UI/skeleton";
 import ProductsItem from "./products-item";
 import classes from "./scss/product-logistics.module.scss";
 import SearchProducts from "./search-products";
-import { AnimatePresence } from "framer-motion";
 
 type Variant = {
   ID: string;
@@ -32,7 +32,16 @@ type Props = {
   searchPerformed: boolean;
 };
 
-export default function ProductLogistics({ items, selectedCategory, choosenType = "Products", page = 1, loading, searchQuery, onSearchChange, searchPerformed }: Props) {
+export default function ProductLogistics({
+  items,
+  selectedCategory,
+  choosenType = "Products",
+  page = 1,
+  loading,
+  searchQuery,
+  onSearchChange,
+  searchPerformed,
+}: Props) {
   // console.log("items", items);
   return (
     <div className={classes.container}>

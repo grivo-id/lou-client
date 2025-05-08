@@ -16,7 +16,7 @@ export default function ExploreBtn() {
           Delivery & Pickup
         </h1>
       </div>
-      <span className="text-white text-lg font-semibold cursor-default drop-shadow-md">Tangerang & Jakarta</span>
+      <span className="text-white text-lg font-semibold cursor-default drop-shadow-md">Jakarta</span>
       <div className="flex justify-center">
         <Button onClick={exploreBtn} className="flex drop-shadow-md justify-center items-center bg-luoDarkBiege rounded-none border-none hover:bg-[#a58b73]">
           Explore Our Products
