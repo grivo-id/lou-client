@@ -30,12 +30,8 @@ const nextConfig = {
           },
           {
             key: "Permissions-Policy",
-            value: "camera=(), microphone=(), geolocation=(), interest-cohort=()",
-          },
-          {
-            key: "Content-Security-Policy",
             value:
-              "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://*.vercel.com; style-src 'self' 'unsafe-inline'; connect-src 'self' https://api-prod.loupatisserie.com https://*.google-analytics.com https://*.analytics.google.com https://*.vercel.com; img-src 'self' data: firebasestorage.googleapis.com https://*.google-analytics.com; media-src 'self' firebasestorage.googleapis.com; font-src 'self' data:; frame-ancestors 'self'; base-uri 'self';",
+              "camera=(), microphone=(), geolocation=(), interest-cohort=()",
           },
         ],
       },
