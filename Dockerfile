@@ -1,39 +1,36 @@
-# ---- Base image for dependencies ----
-FROM node:18-alpine AS deps
+# Use Node.js 20 as a base image
+FROM node:20-alpine AS deps
 
-# Install dependencies
+# Set working directory
 WORKDIR /app
-COPY package.json package-lock.json* ./
+
+# Install dependencies (package.json and package-lock.json)
+COPY package.json package-lock.json ./
 RUN npm ci
 
-# ---- Build stage ----
-FROM node:18-alpine AS builder
-
-WORKDIR /app
-COPY --from=deps /app/node_modules ./node_modules
+# Copy the rest of the application source
 COPY . .
 
-# Build the Next.js app in production mode
+# Build the Next.js app
 RUN npm run build
 
-# ---- Production image ----
-FROM node:18-alpine AS runner
+# Production image
+FROM node:20-alpine AS runner
 
 WORKDIR /app
 
-# Copy package.json and built files
+# Copy package.json (optional but good for debugging)
 COPY package.json ./
-COPY --from=builder /app/.next ./.next
-COPY --from=builder /app/public ./public
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/next.config.js ./next.config.js
-COPY --from=builder /app/tsconfig.json ./tsconfig.json
 
-# Set environment variables if needed
-ENV NODE_ENV production
-ENV PORT 3001
+# Copy built app and necessary files from the build stage
+COPY --from=deps /app/.next ./.next
+COPY --from=deps /app/public ./public
+COPY --from=deps /app/node_modules ./node_modules
+COPY --from=deps /app/next.config.mjs ./next.config.mjs
+COPY --from=deps /app/package.json ./package.json
 
-EXPOSE 3001
+# Expose port 3000 (default Next.js port)
+EXPOSE 3000
 
-# Start Next.js app
-CMD ["npm", "start"]
+# Start the app
+CMD ["npm", "run", "start"]
